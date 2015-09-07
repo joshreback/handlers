@@ -9,7 +9,13 @@ class RenderingTest < ActionDispatch::IntegrationTest
 
   test ".string template handler" do
     get "/handlers/string_handler"
-    expected = "Congratulations! You just created another template handler!"
+    expected = "Congratulations! You just created another 11"
+    assert_match expected, response.body
+  end
+
+  test ".md template handler" do
+    get "/handlers/rdiscount"
+    expected = "<p>RDiscount is <em>cool</em> and <strong>fast</strong>!</p>"
     assert_match expected, response.body
   end
 end
