@@ -1,4 +1,5 @@
 require 'test_helper'
+require 'pry'
 
 class RenderingTest < ActionDispatch::IntegrationTest
   test ".rb template handler" do
@@ -17,5 +18,27 @@ class RenderingTest < ActionDispatch::IntegrationTest
     get "/handlers/rdiscount"
     expected = "<p>RDiscount is <em>cool</em> and <strong>fast</strong>!</p>"
     assert_match expected, response.body
+  end
+
+  test ".merb template handler" do
+    get "/handlers/merb"
+    expected = "<p>MERB template handler is <strong>cool and fast</strong>!</p>"
+    assert_match expected, response.body.strip
+  end
+
+  test "dual template with .merb" do
+    email = Notifier.contact("you@example.com")
+    assert_equal 2, email.parts.size
+    assert_equal "multipart/alternative", email.mime_type
+
+    # First format listed in the email block
+    assert_equal "text/plain", email.parts[0].mime_type
+    assert_equal "Dual templates **rock**!",
+      email.parts[0].body.encoded.strip
+
+    # Second format listed in the email block
+    assert_equal "text/html", email.parts[1].mime_type
+    assert_equal "<p>Dual templates <strong>rock</strong>!</p>",
+      email.parts[1].body.encoded.strip
   end
 end
