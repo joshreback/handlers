@@ -1,6 +1,6 @@
 require 'action_view/template'
 require 'rdiscount'
-require 'pry'
+require 'handlers/railtie'
 
 module Handlers
   module Merb
