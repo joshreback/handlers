@@ -3,7 +3,7 @@ require 'rdiscount'
 require 'pry'
 
 module Handlers
-  module MERB
+  module Merb
     def self.erb_handler
       @@erb_handler ||= ActionView::Template.registered_template_handler(:erb)
     end
@@ -24,4 +24,4 @@ ActionView::Template.register_template_handler :string,
   lambda { |template| "%Q{#{template.source}}" }
 ActionView::Template.register_template_handler :md,
   lambda { |template| "RDiscount.new(#{template.source.inspect}).to_html" }
-ActionView::Template.register_template_handler :merb, Handlers::MERB
+ActionView::Template.register_template_handler :merb, Handlers::Merb
